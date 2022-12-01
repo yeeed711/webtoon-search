@@ -4,7 +4,9 @@
   "description": "바닐라 타입스크립트로 구현한 SPA기반 웹페이지 입니다.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "webpack --mode production",
+    "dev": "webpack-dev-server --mode development --open",
+    "start": "webpack-dev-server --mode production --open"
   },
   "repository": {
     "type": "git",
