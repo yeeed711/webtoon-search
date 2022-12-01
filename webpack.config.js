@@ -3,6 +3,7 @@ const HtmlPlugin = require('html-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const tsConfigPath = path.resolve(__dirname, './tsconfig.json');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
   entry: ['./src/main.ts', './src/scss/index.scss'],
@@ -33,6 +34,11 @@ module.exports = {
         use: 'ts-loader',
         exclude: /node_modules/,
       },
+      {
+        test: /\\.s[ac]ss$/i,
+        use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
+        exclude: /node_modules/,
+      },
     ],
   },
   devtool: 'inline-source-map',
@@ -48,6 +54,9 @@ module.exports = {
     }),
     new CopyPlugin({
       patterns: [{ from: 'public/favicon.ico' }],
+    }),
+    new MiniCssExtractPlugin({
+      filename: 'assets/css/style.[contenthash].css',
     }),
   ],
 };
