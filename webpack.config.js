@@ -1,6 +1,8 @@
 const path = require('path');
 const HtmlPlugin = require('html-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
+const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
+const tsConfigPath = path.resolve(__dirname, './tsconfig.json');
 
 module.exports = {
   entry: ['./src/main.ts', './src/scss/index.scss'],
@@ -8,6 +10,14 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
     filename: 'js/[name].bundle.js',
     clean: true,
+  },
+  resolve: {
+    extensions: ['.ts', '.js'],
+    plugins: [
+      new TsconfigPathsPlugin({
+        configFile: tsConfigPath,
+      }),
+    ],
   },
   module: {
     rules: [
@@ -17,6 +27,11 @@ module.exports = {
         generator: {
           filename: 'assets/images/[name][ext]',
         },
+      },
+      {
+        test: /\\.ts$/,
+        use: 'ts-loader',
+        exclude: /node_modules/,
       },
     ],
   },
