@@ -1,7 +1,7 @@
 {
   "name": "vanilla-spa",
   "version": "1.0.0",
-  "description": "바닐라 타입스크립트로 구현한 SPA기반 웹페이지 입니다.",
+  "description": "바닐라 타입스크립트로 구현한 웹툰 자동 검색기 입니다.",
   "main": "index.js",
   "scripts": {
     "build": "webpack --mode production",
