@@ -3,6 +3,7 @@ import { Component, SearchInput, SearchResult } from '@components'
 import type { IComponentProps } from '@components/core/Component'
 import type { IItem } from '@components/search/SearchResult'
 import { debounce, selectEl } from '@utils'
+import styles from './App.module.scss'
 
 export default class App extends Component<IAppState> {
   handleChange: (keyword: string) => void
@@ -11,7 +12,9 @@ export default class App extends Component<IAppState> {
     const initalState = {
       keyword: '',
       selectedIndex: 0,
-      listData: {}
+      listData: {},
+      selectedItem: {},
+      isVisiable: false
     } as IAppState
     super({ node, initalState })
   }
@@ -23,6 +26,7 @@ export default class App extends Component<IAppState> {
       const listData = await api.getWebToonList(keyword)
 
       this.setState({
+        isVisiable: true,
         listData: listData
       })
     }, 200)
@@ -46,7 +50,11 @@ export default class App extends Component<IAppState> {
           selectedIndex: nextIndex
         })
       } else if (e.key === 'Enter') {
+        e.preventDefault()
         console.log('enter누름', listData.webtoons[selectedIndex])
+        this.setState({
+          selectedItem: listData.webtoons[selectedIndex]
+        })
       }
     }
   }
@@ -54,16 +62,17 @@ export default class App extends Component<IAppState> {
   template(): string {
     return `
       <main id='root'>
-        <SearchInput></SearchInput>
-        <SearchResultList></SearchResultList>
-        <TargetItem></TargetItem>
+        <div class='container'>
+          <SearchInput></SearchInput>
+          <SearchResultList></SearchResultList>
+        </div>
       </main>
   `
   }
 
   // 하위컴포넌트 부착
   renderChildComponent(): void {
-    const { keyword, selectedIndex, listData } = this.initalState
+    const { keyword, selectedIndex, listData, isVisiable } = this.initalState
 
     new SearchInput({
       node: selectEl(this.node, 'SearchInput'),
@@ -78,7 +87,12 @@ export default class App extends Component<IAppState> {
       initalState: {
         keyword,
         listData,
-        selectedIndex
+        isVisiable,
+        selectedIndex,
+        onClick: (selectedItem: any): void => {
+          this.setState({ selectedItem: selectedItem })
+          console.log(selectedItem)
+        }
       }
     })
 
@@ -100,4 +114,6 @@ interface IAppState {
   listData: {
     webtoons: IItem[]
   }
+  selectedItem: IItem
+  isVisiable: boolean
 }
