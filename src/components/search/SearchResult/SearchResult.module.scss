@@ -1,7 +1,37 @@
-.selected {
-  background-color: #bee3f8;
-}
-
 .Suggestion__item--matched {
   background-color: #9ae6b4;
+}
+
+.result_list {
+  //ul
+  width: 400px;
+  z-index: 1;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 24px;
+  border: 1px solid #c4c4c4;
+  max-height: 300px;
+  overflow: scroll;
+  li + li {
+    border-top: 1px solid #20252d;
+  }
+  li {
+    padding: 10px;
+    width: 100%;
+    cursor: pointer;
+    color: #c4c4c4;
+
+    img {
+      width: 100px;
+    }
+
+    &:hover {
+      color: #4a70f5;
+      background-color: #292d31;
+    }
+  }
+
+  .selected {
+    color: #4a70f5;
+  }
 }
