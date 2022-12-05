@@ -7,13 +7,13 @@ const requset = async (url: string): Promise<any> => {
       throw new Error(`서버와의 연결이 불안정합니다!`)
     }
     const data = await response.json()
-    return data
+    return data.webtoons
   } catch (error) {
     console.error(`에러가 발생했습니다! ${error.message}`)
   }
 }
 
 export const api = {
-  getWebToonList: async (keyword: string): Promise<void> =>
+  getWebToonList: async (keyword: string): Promise<any> =>
     requset(`${BASE_URL}/search?keyword=${keyword}`)
 }
