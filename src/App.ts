@@ -1,20 +1,26 @@
 import { api } from '@api'
-import { Component, SearchInput, SearchResult } from '@components'
+import {
+  Component,
+  SearchInput,
+  SearchResult,
+  SearchItemInfo
+} from '@components'
 import type { IComponentProps } from '@components/core/Component'
 import type { IItem } from '@components/search/SearchResult'
 import { debounce, selectEl } from '@utils'
-import styles from './App.module.scss'
 
 export default class App extends Component<IAppState> {
   handleChange: (keyword: string) => void
   handleKeyChange: (e: any) => void
+  handleClick: (e: any) => void
   constructor({ node }: IComponentProps<IAppState>) {
     const initalState = {
       keyword: '',
       selectedIndex: 0,
-      listData: {},
+      listData: [],
       selectedItem: {},
-      isVisiable: false
+      isResultListVisiable: false,
+      isModalVisiable: false
     } as IAppState
     super({ node, initalState })
   }
@@ -24,18 +30,24 @@ export default class App extends Component<IAppState> {
     this.handleChange = debounce(async (keyword): Promise<any> => {
       // eslint-disable-next-line @typescript-eslint/no-confusing-void-expression
       const listData = await api.getWebToonList(keyword)
-
-      this.setState({
-        isVisiable: true,
-        listData: listData
-      })
+      if (!keyword || !listData.length) {
+        this.setState({
+          isResultListVisiable: false
+        })
+      } else {
+        this.setState({
+          isResultListVisiable: true,
+          listData: listData,
+          keyword: keyword
+        })
+      }
     }, 200)
 
     this.handleKeyChange = (e): void => {
       const actionKeys = ['ArrowUp', 'ArrowDown']
       const { listData, selectedIndex } = this.initalState
-      if (!listData.webtoons) return
-      const lastIndex = listData.webtoons.length - 1
+      if (!listData) return
+      const lastIndex = listData.length - 1
       let nextIndex = selectedIndex
 
       if (actionKeys.includes(e.key)) {
@@ -44,17 +56,34 @@ export default class App extends Component<IAppState> {
         } else {
           nextIndex = selectedIndex === lastIndex ? 0 : nextIndex + 1
         }
-
         this.setState({
           ...this.initalState,
           selectedIndex: nextIndex
         })
-      } else if (e.key === 'Enter') {
+      }
+
+      if (e.key === 'Enter') {
         e.preventDefault()
-        console.log('enter누름', listData.webtoons[selectedIndex])
+        console.log(this.initalState.selectedItem)
         this.setState({
-          selectedItem: listData.webtoons[selectedIndex]
+          selectedItem: listData[selectedIndex],
+          isModalVisiable: true
         })
+      }
+
+      if (e.key === 'Escape') {
+        this.setState({
+          isModalVisiable: false
+        })
+      }
+    }
+
+    this.handleClick = (e): void => {
+      if (
+        e.target.closest('button') ||
+        e.target.classList.contains('item_info')
+      ) {
+        this.setState({ isModalVisiable: false })
       }
     }
   }
@@ -62,9 +91,11 @@ export default class App extends Component<IAppState> {
   template(): string {
     return `
       <main id='root'>
+        <header class='header'>Webtoons Search</header>
         <div class='container'>
           <SearchInput></SearchInput>
           <SearchResultList></SearchResultList>
+          <SearchItemInfo></SearchItemInfo>
         </div>
       </main>
   `
@@ -72,7 +103,14 @@ export default class App extends Component<IAppState> {
 
   // 하위컴포넌트 부착
   renderChildComponent(): void {
-    const { keyword, selectedIndex, listData, isVisiable } = this.initalState
+    const {
+      keyword,
+      selectedIndex,
+      listData,
+      isResultListVisiable,
+      selectedItem,
+      isModalVisiable
+    } = this.initalState
 
     new SearchInput({
       node: selectEl(this.node, 'SearchInput'),
@@ -85,35 +123,44 @@ export default class App extends Component<IAppState> {
     const searchResult = new SearchResult({
       node: selectEl(this.node, 'SearchResultList'),
       initalState: {
-        keyword,
         listData,
-        isVisiable,
+        isResultListVisiable,
         selectedIndex,
         onClick: (selectedItem: any): void => {
-          this.setState({ selectedItem: selectedItem })
-          console.log(selectedItem)
+          this.setState({ selectedItem: selectedItem, isModalVisiable: true })
         }
       }
     })
 
+    const searchItemInfo = new SearchItemInfo({
+      node: selectEl(this.node, 'SearchItemInfo'),
+      renderStateKey: ['selectedIndex'],
+      initalState: {
+        selectedItem,
+        isModalVisiable
+      }
+    })
+
     this.subscribe(searchResult)
+    this.subscribe(searchItemInfo)
   }
 
   setEvent(): void {
     window.addEventListener('keyup', this.handleKeyChange)
+    this.node.addEventListener('click', this.handleClick, true)
   }
 
   clearEvent(): void {
     window.removeEventListener('keyup', this.handleKeyChange)
+    this.node.removeEventListener('click', this.handleClick)
   }
 }
 
 interface IAppState {
   keyword: string
   selectedIndex: number
-  listData: {
-    webtoons: IItem[]
-  }
+  listData: IItem[]
   selectedItem: IItem
-  isVisiable: boolean
+  isResultListVisiable: boolean
+  isModalVisiable: boolean
 }
