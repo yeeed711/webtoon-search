@@ -1,5 +1,4 @@
 import Component from '@components/core/Component'
-import { selectEl } from '@utils'
 import styles from './SearchInput.module.scss'
 
 export default class SearchInput extends Component<ISearchInputState> {
@@ -7,7 +6,7 @@ export default class SearchInput extends Component<ISearchInputState> {
   template(): string {
     const { SearchInput__input } = styles
     return `
-      <input class='${SearchInput__input}' type='text' placeholder='웹툰제목, 작가명'/>
+      <input class='${SearchInput__input}' type='text' placeholder='웹툰제목, 작가이름으로 검색'/>
     `
   }
 

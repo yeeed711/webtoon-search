@@ -4,26 +4,21 @@ import styles from './SearchResult.module.scss'
 export default class SearchResult extends Component<ISearchResultState> {
   handleClick: (selectedItem: any) => void
   template(): string {
-    const {
-      // keyword,
-      selectedIndex,
-      isVisiable,
-      listData: { webtoons }
-    } = this.initalState
+    const { selectedIndex, isResultListVisiable, listData } = this.initalState
     const { result_list, selected } = styles
+
     return `
-      <ul class='${isVisiable ? `${result_list}` : 'hide'}'>${webtoons
+      <ul class='${
+        isResultListVisiable ? `${result_list}` : 'hide'
+      }'>${Array.from(listData)
       ?.map(
         (item, index) =>
-          `
-          <a href='${item.url}'>
-            <li class='${
-              index === selectedIndex ? `${selected}` : ''
-            }' data-index='${index}'>
-              <span>${item.title} ,${item.author}</span>
-            </li>
-          </a>
-          `
+          `<li class='${
+            index === selectedIndex ? `${selected}` : ''
+          }' data-index='${index}'>
+              <span>${item.title}</span>
+              <span>[ ${item.author} ]</span>
+            </li>`
       )
       .join('')}
       </ul>
@@ -37,7 +32,7 @@ export default class SearchResult extends Component<ISearchResultState> {
       const $li = target.closest('li')
       if ($li) {
         const { index } = $li.dataset
-        onClick(this.initalState.listData.webtoons[parseInt(index)])
+        onClick(this.initalState.listData[parseInt(index)])
       }
     }
   }
@@ -45,15 +40,17 @@ export default class SearchResult extends Component<ISearchResultState> {
   setEvent(): void {
     this.node.addEventListener('click', this.handleClick)
   }
+
+  clearEvent(): void {
+    this.node.removeEventListener('click', this.handleClick)
+  }
 }
 
 interface ISearchResultState {
-  isVisiable: boolean
-  keyword: string
+  isResultListVisiable: boolean
   selectedIndex: number
-  listData: {
-    webtoons: IItem[]
-  }
+  listData: IItem[]
+
   onClick(selectedItem: any): void
 }
 
