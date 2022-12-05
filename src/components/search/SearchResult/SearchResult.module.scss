@@ -1,34 +1,35 @@
+@import '../../../scss/variable.scss';
+
 .result_list {
-  //ul
   width: 350px;
   z-index: 1;
   padding: 10px;
   margin-top: 10px;
   border-radius: 10px;
   border: 1px solid inherit;
-  background-color: #20252d;
+  background-color: $LIST_BG_COLOR;
   max-height: 300px;
   overflow: scroll;
   li + li {
-    border-top: 1px solid #20252d;
+    border-top: 1px solid $LIST_BG_COLOR;
   }
   li {
     padding: 10px;
     width: 100%;
     cursor: pointer;
-    color: #c4c4c4;
+    color: $FONT_COLOR;
 
     img {
       width: 100px;
     }
 
     &:hover {
-      color: #adff2f;
-      background-color: #292d31;
+      color: $POINT_COLOR;
+      background-color: $HOVER_BG_COLOR;
     }
   }
 
   .selected {
-    color: #adff2f;
+    color: $POINT_COLOR;
   }
 }

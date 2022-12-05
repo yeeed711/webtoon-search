@@ -1,9 +1,11 @@
+@import '../../../scss/variable.scss';
+
 .SearchInput__input {
   width: 350px;
-  border: 1px solid #0d1017;
+  border: 1px solid $INPUT_COLOR;
   border-radius: 10px;
   padding: 10px 24px;
   font-size: 20px;
-  background-color: #0d1017;
-  color: #c4c4c4;
+  background-color: $INPUT_COLOR;
+  color: $FONT_COLOR;
 }
