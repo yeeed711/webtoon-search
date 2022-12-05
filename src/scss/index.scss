@@ -87,3 +87,19 @@ button {
   font-weight: bold;
   font-style: italic;
 }
+
+.modal {
+  background-color: $LIST_BG_COLOR;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+@media (max-width: 375px) {
+  .modal {
+    width: 300px;
+    img {
+      max-width: 250px;
+      max-height: 400px;
+    }
+  }
+}
