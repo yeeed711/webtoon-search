@@ -8,6 +8,7 @@ import {
 import type { IComponentProps } from '@components/core/Component'
 import type { IItem } from '@components/search/SearchResult'
 import { debounce, selectEl } from '@utils'
+import { getItem, setItem } from '@utils/storage'
 
 export default class App extends Component<IAppState> {
   handleChange: (keyword: string) => void
@@ -22,17 +23,19 @@ export default class App extends Component<IAppState> {
       isResultListVisiable: false,
       isModalVisiable: false
     } as IAppState
+
     super({ node, initalState })
   }
 
-  // 기본 상태값 정의, 이벤트 핸들러 정의
   setup(): void {
+    this.setState({ ...this.initalState, ...getItem('searchState') })
     this.handleChange = debounce(async (keyword): Promise<any> => {
       // eslint-disable-next-line @typescript-eslint/no-confusing-void-expression
       const listData = await api.getWebToonList(keyword)
       if (!keyword || !listData.length) {
         this.setState({
-          isResultListVisiable: false
+          isResultListVisiable: false,
+          selectedIndex: 0
         })
       } else {
         this.setState({
@@ -60,15 +63,16 @@ export default class App extends Component<IAppState> {
           ...this.initalState,
           selectedIndex: nextIndex
         })
+        setItem('searchState', this.initalState)
       }
 
       if (e.key === 'Enter') {
         e.preventDefault()
-        console.log(this.initalState.selectedItem)
         this.setState({
           selectedItem: listData[selectedIndex],
           isModalVisiable: true
         })
+        setItem('searchState', this.initalState)
       }
 
       if (e.key === 'Escape') {
@@ -83,7 +87,10 @@ export default class App extends Component<IAppState> {
         e.target.closest('button') ||
         e.target.classList.contains('item_info')
       ) {
-        this.setState({ isModalVisiable: false })
+        this.setState({
+          isModalVisiable: false
+        })
+        setItem('searchState', this.initalState)
       }
     }
   }
@@ -101,10 +108,8 @@ export default class App extends Component<IAppState> {
   `
   }
 
-  // 하위컴포넌트 부착
   renderChildComponent(): void {
     const {
-      keyword,
       selectedIndex,
       listData,
       isResultListVisiable,
@@ -116,7 +121,8 @@ export default class App extends Component<IAppState> {
       node: selectEl(this.node, 'SearchInput'),
       initalState: {
         keyword: '',
-        onInput: this.handleChange
+        onInput: this.handleChange,
+        target: this.node
       }
     })
 
@@ -126,15 +132,18 @@ export default class App extends Component<IAppState> {
         listData,
         isResultListVisiable,
         selectedIndex,
-        onClick: (selectedItem: any): void => {
-          this.setState({ selectedItem: selectedItem, isModalVisiable: true })
+        onClick: (selectedItem: any, index: string): void => {
+          this.setState({
+            selectedItem: selectedItem,
+            isModalVisiable: true,
+            selectedIndex: Number(index)
+          })
         }
       }
     })
 
     const searchItemInfo = new SearchItemInfo({
       node: selectEl(this.node, 'SearchItemInfo'),
-      renderStateKey: ['selectedIndex'],
       initalState: {
         selectedItem,
         isModalVisiable
@@ -147,7 +156,7 @@ export default class App extends Component<IAppState> {
 
   setEvent(): void {
     window.addEventListener('keyup', this.handleKeyChange)
-    this.node.addEventListener('click', this.handleClick, true)
+    this.node.addEventListener('click', this.handleClick)
   }
 
   clearEvent(): void {
