@@ -1,5 +1,4 @@
 import { Component } from '@components'
-import { getItem, setItem } from '@utils/storage'
 import styles from './SearchResult.module.scss'
 
 export default class SearchResult extends Component<ISearchResultState> {
@@ -38,18 +37,21 @@ export default class SearchResult extends Component<ISearchResultState> {
         onClick(this.initalState.listData[parseInt(index)], index)
       }
     }
-
-    this.getScrollPoisition = (): void => {
-      window.requestAnimationFrame(() => {
-        setItem('scrollY', this.node.scrollTop)
-      })
-    }
   }
 
   setEvent(): void {
     this.node.addEventListener('click', this.handleClick)
-    this.node.addEventListener('scroll', this.getScrollPoisition)
-    this.node.scrollTo(0, getItem('scrollY'))
+
+    const { selectedIndex } = this.initalState
+
+    const temp = 40.5 //li size
+    if ((selectedIndex > 0 && selectedIndex <= 3) || selectedIndex === 0) {
+      this.node.scrollTo(0, 0)
+    }
+
+    if (selectedIndex > 3) {
+      this.node.scrollTo(0, temp * (selectedIndex - 3))
+    }
   }
 
   clearEvent(): void {
