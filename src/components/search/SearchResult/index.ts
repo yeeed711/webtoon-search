@@ -1,8 +1,10 @@
 import { Component } from '@components'
+import { getItem, setItem } from '@utils/storage'
 import styles from './SearchResult.module.scss'
 
 export default class SearchResult extends Component<ISearchResultState> {
   handleClick: (selectedItem: any) => void
+  getScrollPoisition: () => void
   template(): string {
     const { selectedIndex, isResultListVisiable, listData } = this.initalState
     const { result_list, selected } = styles
@@ -27,18 +29,27 @@ export default class SearchResult extends Component<ISearchResultState> {
 
   setup(): void {
     const { onClick } = this.initalState
+
     this.handleClick = (e): void => {
       const target = e.target as HTMLElement
       const $li = target.closest('li')
       if ($li) {
         const { index } = $li.dataset
-        onClick(this.initalState.listData[parseInt(index)])
+        onClick(this.initalState.listData[parseInt(index)], index)
       }
+    }
+
+    this.getScrollPoisition = (): void => {
+      window.requestAnimationFrame(() => {
+        setItem('scrollY', this.node.scrollTop)
+      })
     }
   }
 
   setEvent(): void {
     this.node.addEventListener('click', this.handleClick)
+    this.node.addEventListener('scroll', this.getScrollPoisition)
+    this.node.scrollTo(0, getItem('scrollY'))
   }
 
   clearEvent(): void {
@@ -51,7 +62,7 @@ interface ISearchResultState {
   selectedIndex: number
   listData: IItem[]
 
-  onClick(selectedItem: any): void
+  onClick(selectedItem: any, index: string): void
 }
 
 export interface IItem {
