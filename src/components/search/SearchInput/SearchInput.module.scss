@@ -8,4 +8,10 @@
   font-size: 20px;
   background-color: $INPUT_COLOR;
   color: $FONT_COLOR;
+  &:focus {
+    outline: 2px solid $INPUT_FOCUS_COLOR;
+    &::placeholder {
+      color: $INPUT_FOCUS_COLOR;
+    }
+  }
 }
