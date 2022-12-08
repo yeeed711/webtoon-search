@@ -5,8 +5,22 @@ export default class SearchResult extends Component<ISearchResultState> {
   handleClick: (selectedItem: any) => void
   getScrollPoisition: () => void
   template(): string {
-    const { selectedIndex, isResultListVisiable, listData } = this.initalState
-    const { result_list, selected } = styles
+    const { selectedIndex, isResultListVisiable, listData, keyword } =
+      this.initalState
+    const { result_list, selected, matched } = styles
+
+    const matchKeyword = (item: any, keyword: string): string => {
+      if (!item.includes(keyword)) {
+        return item
+      }
+
+      const matchText = item.match(new RegExp(keyword, 'gi'))[0]
+
+      return item.replace(
+        new RegExp(matchText, 'gi'),
+        `<span class='${matched}'>${matchText}</span>`
+      )
+    }
 
     return `
       <ul class='${
@@ -17,8 +31,8 @@ export default class SearchResult extends Component<ISearchResultState> {
           `<li class='${
             index === selectedIndex ? `${selected}` : ''
           }' data-index='${index}'>
-              <span>${item.title}</span>
-              <span>[ ${item.author} ]</span>
+              <span>${matchKeyword(item.title, keyword)}</span>
+              <span>[ ${matchKeyword(item.author, keyword)}] </span>
             </li>`
       )
       .join('')}
@@ -63,7 +77,7 @@ interface ISearchResultState {
   isResultListVisiable: boolean
   selectedIndex: number
   listData: IItem[]
-
+  keyword: string
   onClick(selectedItem: any, index: string): void
 }
 

@@ -18,6 +18,9 @@
     width: 100%;
     cursor: pointer;
     color: $FONT_COLOR;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 
     img {
       width: 100px;
@@ -31,5 +34,13 @@
 
   .selected {
     color: $POINT_COLOR;
+    border-left: 2px solid $POINT_COLOR;
+  }
+
+  .matched {
+    color: $POINT_COLOR;
+    background-color: rgb(77, 77, 77);
+    padding: 2px 4px 0px;
+    border-radius: 5px;
   }
 }
