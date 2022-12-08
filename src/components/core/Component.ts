@@ -85,7 +85,7 @@ export default abstract class Component<StateType> {
       return
     }
 
-    this.refleceNeedRender(newState)
+    this.reflectNeedRender(newState)
     this.reflectState(newState)
     this.notify(newState)
 
@@ -99,7 +99,7 @@ export default abstract class Component<StateType> {
     this.isNeedUpdate = currentState !== nextState
   }
 
-  refleceNeedRender(newState: any): void {
+  reflectNeedRender(newState: any): void {
     const updatedStateKeys = Object.keys(newState)
     const renderStateKey = Array.from(this.renderStateKey)
 

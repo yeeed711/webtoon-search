@@ -8,7 +8,9 @@
     "dev": "webpack-dev-server --mode development --open",
     "start": "webpack-dev-server --mode production --open",
     "lint": "eslint ./src/**/*.ts",
-    "lint:fix": "tsc --noEmit && eslint --fix ./src/**/*.ts"
+    "lint:fix": "tsc --noEmit && eslint --fix ./src/**/*.ts",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
   },
   "repository": {
     "type": "git",
@@ -48,6 +50,7 @@
   },
   "dependencies": {
     "core-js": "^3.26.1",
+    "gh-pages": "^4.0.0",
     "whatwg-fetch": "^3.6.2"
   }
 }
