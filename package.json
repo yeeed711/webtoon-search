@@ -1,5 +1,5 @@
 {
-  "name": "vanilla-spa",
+  "name": "webtoons-search",
   "version": "1.0.0",
   "description": "바닐라 타입스크립트로 구현한 웹툰 자동 검색기 입니다.",
   "main": "index.js",
@@ -12,15 +12,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/yeeed711/shoppingmall-spa.git"
+    "url": "git+https://github.com/yeeed711/webtoon-search.git"
   },
   "keywords": [],
   "author": "yeeed",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/yeeed711/shoppingmall-spa/issues"
+    "url": "https://github.com/yeeed711/webtoon-search/issues"
   },
-  "homepage": "https://github.com/yeeed711/shoppingmall-spa",
+  "homepage": "https://github.com/yeeed711/webtoon-search",
   "devDependencies": {
     "@babel/core": "^7.20.5",
     "@babel/plugin-proposal-class-properties": "^7.18.6",
