@@ -38,7 +38,7 @@ export default class App extends Component<IAppState> {
           selectedIndex: 0,
           keyword: '',
           listData: [],
-          selectedItem: {}
+          selectedItem: []
         })
       } else {
         this.setState({
