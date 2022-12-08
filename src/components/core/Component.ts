@@ -1,5 +1,4 @@
-import { ConvertTemplateToComponent } from '@utils'
-import { setItem } from '@utils/storage'
+import { ConvertTemplateToComponent, setItem } from '@utils'
 
 export default abstract class Component<StateType> {
   node: Element

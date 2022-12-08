@@ -7,8 +7,7 @@ import {
 } from '@components'
 import type { IComponentProps } from '@components/core/Component'
 import type { IItem } from '@components/search/SearchResult'
-import { debounce, selectEl } from '@utils'
-import { getItem } from '@utils/storage'
+import { debounce, selectEl, getItem } from '@utils'
 
 export default class App extends Component<IAppState> {
   handleChange: (keyword: string) => void
