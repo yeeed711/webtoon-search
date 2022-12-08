@@ -32,7 +32,7 @@ export default class SearchResult extends Component<ISearchResultState> {
             index === selectedIndex ? `${selected}` : ''
           }' data-index='${index}'>
               <span>${matchKeyword(item.title, keyword)}</span>
-              <span>[ ${matchKeyword(item.author, keyword)}] </span>
+              <span>[ ${matchKeyword(item.author, keyword)} ] </span>
             </li>`
       )
       .join('')}
