@@ -10,7 +10,7 @@ const selectAll = ({ scope, selector }: ISelectType): Element[] => {
 }
 
 const createEl = (tagName: string): Element => {
-  return document.querySelector(tagName)
+  return document.createElement(tagName)
 }
 
 function ConvertTemplateToComponent(this: any): void {

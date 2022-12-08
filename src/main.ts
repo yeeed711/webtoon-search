@@ -1,4 +1,4 @@
-import { selectEl } from '@utils/dom'
+import { selectEl } from '@utils'
 import App from 'App'
 import './scss/index.scss'
 

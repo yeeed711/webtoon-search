@@ -8,7 +8,7 @@ import {
 import type { IComponentProps } from '@components/core/Component'
 import type { IItem } from '@components/search/SearchResult'
 import { debounce, selectEl } from '@utils'
-import { getItem, setItem } from '@utils/storage'
+import { getItem } from '@utils/storage'
 
 export default class App extends Component<IAppState> {
   handleChange: (keyword: string) => void
@@ -35,7 +35,10 @@ export default class App extends Component<IAppState> {
       if (!keyword || !listData.length) {
         this.setState({
           isResultListVisiable: false,
-          selectedIndex: 0
+          selectedIndex: 0,
+          keyword: '',
+          listData: [],
+          selectedItem: {}
         })
       } else {
         this.setState({
@@ -47,38 +50,41 @@ export default class App extends Component<IAppState> {
     }, 200)
 
     this.handleKeyChange = (e): void => {
-      const actionKeys = ['ArrowUp', 'ArrowDown']
       const { listData, selectedIndex } = this.initalState
-      if (!listData) return
+      const actionKeys = ['ArrowUp', 'ArrowDown', 'Enter', 'Escape']
+
+      if (actionKeys.includes(e.key) && !listData.length) {
+        return
+      }
+
       const lastIndex = listData.length - 1
       let nextIndex = selectedIndex
 
-      if (actionKeys.includes(e.key)) {
-        if (e.key === 'ArrowUp') {
+      switch (e.key) {
+        case 'ArrowUp':
           nextIndex = selectedIndex === 0 ? lastIndex : nextIndex - 1
-        } else {
+          this.setState({
+            selectedIndex: nextIndex
+          })
+          break
+        case 'ArrowDown':
           nextIndex = selectedIndex === lastIndex ? 0 : nextIndex + 1
-        }
-        this.setState({
-          ...this.initalState,
-          selectedIndex: nextIndex
-        })
-        setItem('searchState', this.initalState)
-      }
-
-      if (e.key === 'Enter') {
-        e.preventDefault()
-        this.setState({
-          selectedItem: listData[selectedIndex],
-          isModalVisiable: true
-        })
-        setItem('searchState', this.initalState)
-      }
-
-      if (e.key === 'Escape') {
-        this.setState({
-          isModalVisiable: false
-        })
+          this.setState({
+            selectedIndex: nextIndex
+          })
+          break
+        case 'Enter':
+          e.preventDefault()
+          this.setState({
+            selectedItem: listData[selectedIndex],
+            isModalVisiable: true
+          })
+          break
+        case 'Escape':
+          this.setState({
+            isModalVisiable: false
+          })
+          break
       }
     }
 
@@ -90,7 +96,6 @@ export default class App extends Component<IAppState> {
         this.setState({
           isModalVisiable: false
         })
-        setItem('searchState', this.initalState)
       }
     }
   }
@@ -110,6 +115,7 @@ export default class App extends Component<IAppState> {
 
   renderChildComponent(): void {
     const {
+      keyword,
       selectedIndex,
       listData,
       isResultListVisiable,
@@ -120,15 +126,15 @@ export default class App extends Component<IAppState> {
     new SearchInput({
       node: selectEl(this.node, 'SearchInput'),
       initalState: {
-        keyword: '',
-        onInput: this.handleChange,
-        target: this.node
+        keyword: this.initalState.keyword,
+        onInput: this.handleChange
       }
     })
 
     const searchResult = new SearchResult({
       node: selectEl(this.node, 'SearchResultList'),
       initalState: {
+        keyword,
         listData,
         isResultListVisiable,
         selectedIndex,

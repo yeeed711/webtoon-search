@@ -1,4 +1,5 @@
-import { ConvertTemplateToComponent } from '@utils/dom'
+import { ConvertTemplateToComponent } from '@utils'
+import { setItem } from '@utils/storage'
 
 export default abstract class Component<StateType> {
   node: Element
@@ -28,9 +29,11 @@ export default abstract class Component<StateType> {
   }
 
   render(): void {
-    ConvertTemplateToComponent.call(this)
-    this.setEvent()
-    this.renderChildComponent()
+    window.requestAnimationFrame(() => {
+      ConvertTemplateToComponent.call(this)
+      this.setEvent()
+      this.renderChildComponent()
+    })
   }
 
   updater(): void {
@@ -85,6 +88,8 @@ export default abstract class Component<StateType> {
     this.refleceNeedRender(newState)
     this.reflectState(newState)
     this.notify(newState)
+
+    setItem('searchState', this.initalState)
   }
 
   checkUpdataState(newState: any): void {
