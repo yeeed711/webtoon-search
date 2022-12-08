@@ -2,7 +2,7 @@
 
 바닐라 타입스크립트로 구현한 웹툰 검색기 입니다.
 <br>
-보러가기 ->
+**보러가기 -> https://yeeed711.github.io/webtoon-search/**
 <br>
 
 ## 기술 스택 🛠
