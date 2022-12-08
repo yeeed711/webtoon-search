@@ -3,7 +3,6 @@ import styles from './SearchResult.module.scss'
 
 export default class SearchResult extends Component<ISearchResultState> {
   handleClick: (selectedItem: any) => void
-  getScrollPoisition: () => void
   template(): string {
     const { selectedIndex, isResultListVisiable, listData, keyword } =
       this.initalState
@@ -23,19 +22,18 @@ export default class SearchResult extends Component<ISearchResultState> {
     }
 
     return `
-      <ul class='${
-        isResultListVisiable ? `${result_list}` : 'hide'
-      }'>${Array.from(listData)
-      ?.map(
-        (item, index) =>
-          `<li class='${
-            index === selectedIndex ? `${selected}` : ''
-          }' data-index='${index}'>
+      <ul class='${isResultListVisiable ? `${result_list}` : 'hide'}'>
+      ${Array.from(listData)
+        ?.map(
+          (item, index) =>
+            `<li class='${
+              index === selectedIndex ? `${selected}` : ''
+            }' data-index='${index}'>
               <span>${matchKeyword(item.title, keyword)}</span>
               <span>[ ${matchKeyword(item.author, keyword)} ] </span>
             </li>`
-      )
-      .join('')}
+        )
+        .join('')}
       </ul>
     `
   }
