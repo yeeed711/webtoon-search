@@ -1,0 +1,24 @@
+@import '../../../scss/variable';
+
+.error_meg {
+  background-color: $LIST_BG_COLOR;
+  text-align: center;
+  color: $FONT_COLOR;
+  line-height: 40.5px;
+  border-radius: 10px;
+  margin-top: 10px;
+  position: relative;
+  animation: up 0.5s ease-in-out;
+}
+
+@keyframes up {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

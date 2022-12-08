@@ -3,7 +3,8 @@ import {
   Component,
   SearchInput,
   SearchResult,
-  SearchItemInfo
+  SearchItemInfo,
+  ErrorMeg
 } from '@components'
 import type { IComponentProps } from '@components/core/Component'
 import type { IItem } from '@components/search/SearchResult'
@@ -20,7 +21,8 @@ export default class App extends Component<IAppState> {
       listData: [],
       selectedItem: {},
       isResultListVisiable: false,
-      isModalVisiable: false
+      isModalVisiable: false,
+      isErrorMeg: true
     } as IAppState
 
     super({ node, initalState })
@@ -31,28 +33,42 @@ export default class App extends Component<IAppState> {
     this.handleChange = debounce(async (keyword): Promise<any> => {
       // eslint-disable-next-line @typescript-eslint/no-confusing-void-expression
       const listData = await api.getWebToonList(keyword)
-      if (!keyword || !listData.length) {
+
+      if (!keyword) {
         this.setState({
           isResultListVisiable: false,
           selectedIndex: 0,
           keyword: '',
-          listData: [],
+          listData: !listData.length ? [] : listData,
           selectedItem: {}
+        })
+      } else if (keyword.length < 2 && keyword.length > 0) {
+        this.setState({
+          isResultListVisiable: false,
+          isErrorMeg: true,
+          keyword: keyword
         })
       } else {
         this.setState({
-          isResultListVisiable: true,
+          isResultListVisiable: listData.length > 0,
           listData: listData,
-          keyword: keyword
+          keyword: keyword,
+          isErrorMeg: false
         })
       }
-    }, 200)
+    }, 300)
 
     this.handleKeyChange = (e): void => {
       const { listData, selectedIndex } = this.initalState
-      const actionKeys = ['ArrowUp', 'ArrowDown', 'Enter', 'Escape']
 
-      if (actionKeys.includes(e.key) && !listData.length) {
+      const ACTIONKEYS = {
+        ARROWUP: 'ArrowUp',
+        ARROWDOWN: 'ArrowDown',
+        ENTER: 'Enter',
+        ESCAPE: 'Escape'
+      }
+
+      if (Object.values(ACTIONKEYS).includes(e.key) && !listData.length) {
         return
       }
 
@@ -60,26 +76,26 @@ export default class App extends Component<IAppState> {
       let nextIndex = selectedIndex
 
       switch (e.key) {
-        case 'ArrowUp':
+        case ACTIONKEYS.ARROWUP:
           nextIndex = selectedIndex === 0 ? lastIndex : nextIndex - 1
           this.setState({
             selectedIndex: nextIndex
           })
           break
-        case 'ArrowDown':
+        case ACTIONKEYS.ARROWDOWN:
           nextIndex = selectedIndex === lastIndex ? 0 : nextIndex + 1
           this.setState({
             selectedIndex: nextIndex
           })
           break
-        case 'Enter':
+        case ACTIONKEYS.ENTER:
           e.preventDefault()
           this.setState({
             selectedItem: listData[selectedIndex],
             isModalVisiable: true
           })
           break
-        case 'Escape':
+        case ACTIONKEYS.ESCAPE:
           this.setState({
             isModalVisiable: false
           })
@@ -105,6 +121,7 @@ export default class App extends Component<IAppState> {
         <header class='header'>Webtoons Search</header>
         <div class='container'>
           <SearchInput></SearchInput>
+          <ErrorMessage></ErrorMessage>
           <SearchResultList></SearchResultList>
           <SearchItemInfo></SearchItemInfo>
         </div>
@@ -119,7 +136,8 @@ export default class App extends Component<IAppState> {
       listData,
       isResultListVisiable,
       selectedItem,
-      isModalVisiable
+      isModalVisiable,
+      isErrorMeg
     } = this.initalState
 
     new SearchInput({
@@ -128,6 +146,12 @@ export default class App extends Component<IAppState> {
         keyword: this.initalState.keyword,
         onInput: this.handleChange
       }
+    })
+
+    const errorMeg = new ErrorMeg({
+      node: selectEl(this.node, 'ErrorMessage'),
+      renderStateKey: ['selectedItem', 'selectedIndex'],
+      initalState: { isErrorMeg, keyword }
     })
 
     const searchResult = new SearchResult({
@@ -157,6 +181,7 @@ export default class App extends Component<IAppState> {
 
     this.subscribe(searchResult)
     this.subscribe(searchItemInfo)
+    this.subscribe(errorMeg)
   }
 
   setEvent(): void {
@@ -177,4 +202,5 @@ interface IAppState {
   selectedItem: IItem
   isResultListVisiable: boolean
   isModalVisiable: boolean
+  isErrorMeg: boolean
 }
