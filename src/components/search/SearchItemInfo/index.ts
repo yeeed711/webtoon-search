@@ -1,4 +1,4 @@
-import { Component } from '@components/core'
+import { Component } from '@components'
 import type { IItem } from '../SearchResult'
 
 export default class SearchItemInfo extends Component<ISearchItemInfoState> {
