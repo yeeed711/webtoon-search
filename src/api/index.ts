@@ -1,15 +1,15 @@
-const BASE_URL = 'https://korea-webtoon-api.herokuapp.com'
+import { BASE_URL, REQUSET_MESSAGE } from '@constants'
 
 const requset = async (url: string): Promise<any> => {
   try {
     const response = await fetch(url)
     if (!response.ok) {
-      throw new Error(`서버와의 연결이 불안정합니다!`)
+      throw new Error(REQUSET_MESSAGE.HTTP_ERROR)
     }
     const data = await response.json()
     return data.webtoons
   } catch (error) {
-    console.error(`에러가 발생했습니다! ${error.message}`)
+    console.error(`${REQUSET_MESSAGE.SERVER_ERROR} ${error.message}`)
   }
 }
 
