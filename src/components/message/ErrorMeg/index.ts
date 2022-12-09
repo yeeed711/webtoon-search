@@ -8,7 +8,7 @@ export default class ErrorMeg extends Component<IErrorMegState> {
 
     const keywordError = `<span>검색어를 입력해주세요 :)</span>`
     const lengthError = `<span><strong>'두 글자'</strong> 부터 검색이 가능합니다 :)</span>`
-    const noneResultError = `<span><strong>'${keyword}'</strong> 의 검색 결과가 없습니다 :<</span>`
+    const noneResultError = `<span><strong>'${keyword}'</strong> 의 검색 결과가 없습니다 :(</span>`
 
     const ErrorType = (): string => {
       if (keyword.length === 0) {
@@ -24,10 +24,14 @@ export default class ErrorMeg extends Component<IErrorMegState> {
       }
     }
 
+    const ErrorMessageShow = (): string => {
+      return `${isErrorMeg ? ErrorType() : ''}`
+    }
+
     return `
-    <div class='${error_meg}'>
-    ${isErrorMeg ? ErrorType() : ''}
-    </div>
+      <div class='${error_meg}'>
+        ${ErrorMessageShow()}
+      </div>
     `
   }
 }

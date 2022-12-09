@@ -49,7 +49,7 @@ export default class App extends Component<IAppState> {
           isErrorMeg: listData.length > 0 ? false : true
         })
       }
-    }, 200)
+    }, 300)
 
     this.handleKeyChange = (e): void => {
       const { listData, selectedIndex } = this.initalState
