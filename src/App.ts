@@ -33,30 +33,23 @@ export default class App extends Component<IAppState> {
     this.handleChange = debounce(async (keyword): Promise<any> => {
       // eslint-disable-next-line @typescript-eslint/no-confusing-void-expression
       const listData = await api.getWebToonList(keyword)
-
       if (!keyword) {
         this.setState({
           isResultListVisiable: false,
           selectedIndex: 0,
           keyword: '',
-          listData: !listData.length ? [] : listData,
+          listData: listData.length ? listData : [],
           selectedItem: {}
-        })
-      } else if (keyword.length < 2 && keyword.length > 0) {
-        this.setState({
-          isResultListVisiable: false,
-          isErrorMeg: true,
-          keyword: keyword
         })
       } else {
         this.setState({
           isResultListVisiable: listData.length > 0,
           listData: listData,
           keyword: keyword,
-          isErrorMeg: false
+          isErrorMeg: listData.length > 0 ? false : true
         })
       }
-    }, 300)
+    }, 200)
 
     this.handleKeyChange = (e): void => {
       const { listData, selectedIndex } = this.initalState
@@ -151,7 +144,7 @@ export default class App extends Component<IAppState> {
     const errorMeg = new ErrorMeg({
       node: selectEl(this.node, 'ErrorMessage'),
       renderStateKey: ['selectedItem', 'selectedIndex'],
-      initalState: { isErrorMeg, keyword }
+      initalState: { isErrorMeg, keyword, isResultListVisiable }
     })
 
     const searchResult = new SearchResult({
