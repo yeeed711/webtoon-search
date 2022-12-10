@@ -38,8 +38,22 @@
 .info_text_cont {
   font-weight: bold;
   font-size: 18px;
+  padding: 15px;
+  margin-bottom: 60px;
   a {
     border-bottom: 5px solid $POINT_COLOR;
+  }
+  p {
+    // margin: 0;
+  }
+  p:nth-child(1) {
+    font-size: 50px;
+  }
+  p:nth-child(2) {
+    font-size: 20px;
+  }
+  p:nth-child(3) {
+    font-size: 20px;
   }
 }
 
