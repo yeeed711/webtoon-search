@@ -1,3 +1,5 @@
+import type { IDebounce } from './type'
+
 const debounce: IDebounce = (callback, delay) => {
   let timeout: number
 
@@ -11,8 +13,3 @@ const debounce: IDebounce = (callback, delay) => {
 }
 
 export { debounce }
-
-type IDebounce = (
-  callback: (event: any) => void,
-  delay: number
-) => (event: any) => void

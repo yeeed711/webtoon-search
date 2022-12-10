@@ -6,9 +6,8 @@ import {
   SearchItemInfo,
   ErrorMeg
 } from '@components'
-import type { IComponentProps } from '@components/core/Component'
-import type { IItem } from '@components/search/SearchResult'
 import { ACTIONKEYS } from '@constants'
+import type { IComponentProps, IItem, IAppState } from '@models'
 import { debounce, selectEl, getItem } from '@utils'
 
 export default class App extends Component<IAppState> {
@@ -178,14 +177,4 @@ export default class App extends Component<IAppState> {
     window.removeEventListener('keyup', this.handleKeyChange)
     this.node.removeEventListener('click', this.handleClick)
   }
-}
-
-interface IAppState {
-  keyword: string
-  selectedIndex: number
-  listData: IItem[]
-  selectedItem: IItem
-  isResultListVisiable: boolean
-  isModalVisiable: boolean
-  isErrorMeg: boolean
 }

@@ -1,5 +1,6 @@
 import { Component } from '@components'
 import styles from './ErrorMeg.module.scss'
+import type { IErrorMegState } from './type'
 
 export default class ErrorMeg extends Component<IErrorMegState> {
   template(): string {
@@ -35,13 +36,3 @@ export default class ErrorMeg extends Component<IErrorMegState> {
     `
   }
 }
-
-interface IErrorMegState {
-  keyword: string
-  isErrorMeg: boolean
-  isResultListVisiable: boolean
-}
-
-// <div class='${error_meg}'>
-// ${isErrorMeg ? (keyword.length === 0 ? keywordError : lengthError) : ''}
-// </div>

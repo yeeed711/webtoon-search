@@ -11,7 +11,9 @@
       "@constants": ["./constants"],
       "@constants/*": ["./constants/*"],
       "@components": ["./components"],
-      "@components/*": ["./components/*"]
+      "@components/*": ["./components/*"],
+      "@models": ["./models"],
+      "@models/*": ["./models/*"]
     }
   }
 }

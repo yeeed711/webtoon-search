@@ -1,5 +1,6 @@
 import { Component } from '@components'
 import styles from './SearchInput.module.scss'
+import type { ISearchInputState } from './type'
 
 export default class SearchInput extends Component<ISearchInputState> {
   handleInput: (e: any) => void
@@ -34,9 +35,4 @@ export default class SearchInput extends Component<ISearchInputState> {
   clearEvent(): void {
     this.node.removeEventListener('input', this.handleInput)
   }
-}
-
-interface ISearchInputState {
-  keyword: string
-  onInput?(keyword: string): void
 }

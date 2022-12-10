@@ -1,3 +1,5 @@
+import type { ISelectType } from './type'
+
 const selectEl = (
   scope: Element | Document = document,
   selector: string
@@ -40,8 +42,3 @@ function ConvertTemplateToComponent(this: any): void {
 }
 
 export { createEl, selectEl, selectAll, ConvertTemplateToComponent }
-
-interface ISelectType {
-  scope: Element | Document
-  selector: string
-}

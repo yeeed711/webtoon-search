@@ -1,3 +1,4 @@
+import type { IComponentProps } from '@models'
 import { ConvertTemplateToComponent, setItem } from '@utils'
 
 export default abstract class Component<StateType> {
@@ -116,10 +117,4 @@ export default abstract class Component<StateType> {
       ] as StateType[keyof StateType]
     })
   }
-}
-
-export interface IComponentProps<StateType> {
-  node: Element
-  initalState: StateType | null
-  renderStateKey?: string[]
 }

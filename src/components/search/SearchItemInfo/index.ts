@@ -1,6 +1,6 @@
 import { Component } from '@components'
-import type { IItem } from '../SearchResult'
 import styles from './SearchItemInfo.module.scss'
+import type { ISearchItemInfoState } from './type'
 
 export default class SearchItemInfo extends Component<ISearchItemInfoState> {
   template(): string {
@@ -30,9 +30,4 @@ export default class SearchItemInfo extends Component<ISearchItemInfoState> {
     </div>
     `
   }
-}
-
-interface ISearchItemInfoState {
-  selectedItem: IItem
-  isModalVisiable: boolean
 }

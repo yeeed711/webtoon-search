@@ -1,5 +1,6 @@
 import { Component } from '@components'
 import styles from './SearchResult.module.scss'
+import type { ISearchResultState } from './type'
 
 export default class SearchResult extends Component<ISearchResultState> {
   handleClick: (e: any) => void
@@ -69,20 +70,4 @@ export default class SearchResult extends Component<ISearchResultState> {
   clearEvent(): void {
     this.node.removeEventListener('click', this.handleClick)
   }
-}
-
-interface ISearchResultState {
-  isResultListVisiable: boolean
-  selectedIndex: number
-  listData: IItem[]
-  keyword: string
-  onClick(selectedItem: IItem, index: string): void
-}
-
-export interface IItem {
-  title: string
-  author: string
-  img: string
-  service: string
-  url: string
 }
