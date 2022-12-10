@@ -8,12 +8,13 @@ import {
 } from '@components'
 import type { IComponentProps } from '@components/core/Component'
 import type { IItem } from '@components/search/SearchResult'
+import { ACTIONKEYS } from '@constants'
 import { debounce, selectEl, getItem } from '@utils'
 
 export default class App extends Component<IAppState> {
   handleChange: (keyword: string) => void
-  handleKeyChange: (e: any) => void
-  handleClick: (e: any) => void
+  handleKeyChange: (e: KeyboardEvent) => void
+  handleClick: (e: MouseEvent) => void
   constructor({ node }: IComponentProps<IAppState>) {
     const initalState = {
       keyword: '',
@@ -54,13 +55,6 @@ export default class App extends Component<IAppState> {
     this.handleKeyChange = (e): void => {
       const { listData, selectedIndex } = this.initalState
 
-      const ACTIONKEYS = {
-        ARROWUP: 'ArrowUp',
-        ARROWDOWN: 'ArrowDown',
-        ENTER: 'Enter',
-        ESCAPE: 'Escape'
-      }
-
       if (Object.values(ACTIONKEYS).includes(e.key) && !listData.length) {
         return
       }
@@ -97,10 +91,8 @@ export default class App extends Component<IAppState> {
     }
 
     this.handleClick = (e): void => {
-      if (
-        e.target.closest('button') ||
-        e.target.classList.contains('item_info')
-      ) {
+      const target = e.target as HTMLElement
+      if (target.closest('button') || target.classList.contains('item_info')) {
         this.setState({
           isModalVisiable: false
         })
@@ -154,7 +146,7 @@ export default class App extends Component<IAppState> {
         listData,
         isResultListVisiable,
         selectedIndex,
-        onClick: (selectedItem: any, index: string): void => {
+        onClick: (selectedItem: IItem, index: string): void => {
           this.setState({
             selectedItem: selectedItem,
             isModalVisiable: true,

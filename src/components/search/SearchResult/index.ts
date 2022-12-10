@@ -2,7 +2,7 @@ import { Component } from '@components'
 import styles from './SearchResult.module.scss'
 
 export default class SearchResult extends Component<ISearchResultState> {
-  handleClick: (selectedItem: any) => void
+  handleClick: (e: any) => void
   template(): string {
     const { selectedIndex, isResultListVisiable, listData, keyword } =
       this.initalState
@@ -76,15 +76,13 @@ interface ISearchResultState {
   selectedIndex: number
   listData: IItem[]
   keyword: string
-  onClick(selectedItem: any, index: string): void
+  onClick(selectedItem: IItem, index: string): void
 }
 
 export interface IItem {
-  webtoonId: number
   title: string
   author: string
   img: string
   service: string
-  updateDays: string[]
   url: string
 }
