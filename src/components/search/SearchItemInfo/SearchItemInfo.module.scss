@@ -43,11 +43,9 @@
   a {
     border-bottom: 5px solid $POINT_COLOR;
   }
-  p {
-    // margin: 0;
-  }
   p:nth-child(1) {
     font-size: 50px;
+    word-break: keep-all;
   }
   p:nth-child(2) {
     font-size: 20px;
