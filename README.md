@@ -45,11 +45,51 @@
 
 ## 디렉토리 구조 📁
 
+<details markdown="1">
+<summary>자세히 보기</summary>
+
+```
+├── 📁 public
+│   ├── favicon.ico
+│   └── index.html
+├── 📁 src
+│   ├── App.ts
+│   ├── main.ts
+│   ├── custom.d.ts
+│   ├── 📁 api
+│   │   └── index.ts
+│   ├── 📁 components
+│   │   ├── 📁 core
+│   │   │   ├── Component.ts
+│   │   │   └── index.ts
+│   │   ├── index.ts
+│   │   ├── 📁 message
+│   │   │   ├── 📁 ErrorMeg
+│   │   │   └── index.ts
+│   │   └── 📁 search
+│   │       ├── 📁 SearchInput
+│   │       ├── 📁 SearchItemInfo
+│   │       ├── 📁 SearchResult
+│   │       └── index.ts
+│   ├── 📁 constants
+│   ├── 📁 models
+│   ├── 📁 scss
+│   └── 📁 utils
+│       ├── 📁 dom
+│       ├── 📁 helpers
+│       ├── 📁 storage
+│       └── index.ts
+└── README.md
+```
+
+</details>
+
 - `/api` : api 요청 관련
 - `/components` : 컴포넌트들의 집합
   - `/core` : 모든 컴포넌트의 기본이되는 코어 컴포넌트
   - `/search` : 도메인 컴포넌트의 집합
 - `/constants` : 전역으로 사용되는 상수들의 집합
+- `/models` : 전역으로 사용되는 타입 정의(main data models)
 - `/scss` : scss 스타일
 - `/utils` : 전역으로 사용되는 함수들의 집합
   - `/dom` : dom조작 관련 함수
@@ -85,5 +125,7 @@
 ### 2. GET 요청을 통해 데이터를 받아올 때 콘솔 창에 undefinde 요청이 뜨는 현상
 
 바닐라 자바스크립트로 구현하다보니 조건부 렌더링을 `display:none`을 사용했다. 이때문에 모든 컴포넌트는 항상 렌더링되어있는 상황이었고 모달컴포넌트도 마찬가지였다. 모달컴포넌트를 그리기위해 필요한 정보들 중에서 검색 키워드가 없을 경우엔 모든 `text` 문구에 `undefinde`값이 저장되었다. 조건부 렌더링방식을 바꿔야하나 고민하다 모달을 그려주는 부분에 `default`값을 주어 데이터를 받아오지 않았을때는 `default`값을 사용하도록했다.
+하지만 이 방법은 컴포넌트가 `render()`메서드를 실행할 때 값이 있는지 없는지 확인을 해야한다. `render()`메서드는 데이터를 받아와 렌더링하는 책임만 주기위해 데이터의 값이 있을 때만 렌더링이 될 수 있도록 조건부을 추가했다.
 
 </details>
+```
