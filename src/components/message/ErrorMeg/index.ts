@@ -29,10 +29,14 @@ export default class ErrorMeg extends Component<IErrorMegState> {
       return `${isErrorMeg ? ErrorType() : ''}`
     }
 
-    return `
-      <div class='${error_meg}'>
-        ${ErrorMessageShow()}
-      </div>
-    `
+    const ErrorMegView = (): string => {
+      return `
+        <div class='${error_meg}'>
+          ${ErrorMessageShow()}
+        </div>
+      `
+    }
+
+    return ErrorMegView()
   }
 }

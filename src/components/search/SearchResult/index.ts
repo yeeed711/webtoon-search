@@ -22,21 +22,25 @@ export default class SearchResult extends Component<ISearchResultState> {
       )
     }
 
-    return `
-      <ul class='${isResultListVisiable ? `${result_list}` : 'hide'}'>
-      ${Array.from(listData)
-        ?.map(
-          (item, index) =>
-            `<li class='${
-              index === selectedIndex ? `${selected}` : ''
-            }' data-index='${index}'>
-              <span>${matchKeyword(item.title, keyword)}</span>
-              <span>[ ${matchKeyword(item.author, keyword)} ] </span>
-            </li>`
-        )
-        .join('')}
-      </ul>
-    `
+    const searchResultView = (): string => {
+      return `
+        <ul class='${isResultListVisiable ? result_list : 'hide'}'>
+        ${Array.from(listData)
+          ?.map(
+            (item, index) =>
+              `<li ${
+                index === selectedIndex ? `class=${selected}` : ''
+              } data-index='${index}'>
+                <span>${matchKeyword(item.title, keyword)}</span>
+                <span>[ ${matchKeyword(item.author, keyword)} ] </span>
+              </li>`
+          )
+          .join('')}
+        </ul>
+      `
+    }
+
+    return searchResultView()
   }
 
   setup(): void {

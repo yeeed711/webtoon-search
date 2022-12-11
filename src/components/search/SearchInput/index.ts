@@ -9,9 +9,12 @@ export default class SearchInput extends Component<ISearchInputState> {
     const { SearchInput__input } = styles
     const { keyword } = this.initalState
 
-    return `
-      <input class='${SearchInput__input}' type='text' placeholder='웹툰제목, 작가이름으로 검색' value='${keyword}'/>
-    `
+    const searchInputView = (): string => {
+      return `
+        <input class='${SearchInput__input}' type='text' placeholder='웹툰제목, 작가이름으로 검색' value='${keyword}'/>
+      `
+    }
+    return searchInputView()
   }
 
   setup(): void {
