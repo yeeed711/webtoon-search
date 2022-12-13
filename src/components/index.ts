@@ -1,3 +1,3 @@
 export * from './core'
-export * from './search'
+export * from './domain/search'
 export * from './message'
