@@ -109,4 +109,4 @@
 
 기능 개발을 하며 겪은 이슈들
 
-[개발일지 보러가기](https://robust-jaguar-b08.notion.site/294cc6369a5e45c296305059c279393f)
+[개발일지 보러가기](https://www.notion.so/yeeed/294cc6369a5e45c296305059c279393f)
